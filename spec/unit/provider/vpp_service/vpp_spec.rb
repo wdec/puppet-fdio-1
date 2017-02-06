@@ -30,8 +30,6 @@ describe 'Puppet::Type.type(:vpp_service).provider(:vpp)' do
       provider.expects(:configure_vpp_interfaces)
       provider.expects(:systemctlcmd).with('restart', 'vpp')
       provider.expects(:systemctlcmd).with('enable', 'vpp')
-      provider.expects(:systemctlcmd).with('is-enabled', 'vpp')
-      provider.expects(:systemctlcmd).with('is-active', 'vpp')
       provider.create
     end
   end

@@ -5,15 +5,15 @@ unix {
 }
 
 dpdk {
-  <% if @vpp_dpdk_devs.is_a? Array -%><% @vpp_dpdk_devs.each do |n| -%>
-  dev <%=n-%> <% if @vpp_vlan_enabled && system("lspci -s #{n} | grep VIC") -%> {vlan-strip-offload off}<%end%>
+  <% if scope['fdio::vpp_dpdk_devs'].is_a? Array -%><% scope['fdio::vpp_dpdk_devs'].each do |n| -%>
+  dev <%=n-%> <% if scope['fdio::vpp_vlan_enabled'] && system("lspci -s #{n} | grep VIC") -%> {vlan-strip-offload off}<%end%>
   <% end -%><% end -%>
-  uio-driver <%=@vpp_dpdk_uio_driver%>
+  uio-driver <%=scope['fdio::vpp_dpdk_uio_driver']%>
 }
 
 cpu {
-  <% if @vpp_cpu_main_core -%>main-core <%=@vpp_cpu_main_core%> <%end%>
-  <% if @vpp_cpu_corelist_workers -%>corelist-workers <%=@vpp_cpu_corelist_workers%> <%end%>
+  <% if scope['fdio::vpp_cpu_main_core'] -%>main-core <%=scope['fdio::vpp_cpu_main_core']%> <%end%>
+  <% if scope['fdio::vpp_cpu_corelist_workers'] -%>corelist-workers <%=scope['fdio::vpp_cpu_corelist_workers']%> <%end%>
 }
 
 api-trace {

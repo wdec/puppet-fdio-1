@@ -71,8 +71,6 @@ Puppet::Type.type(:vpp_service).provide :vpp do
     systemctlcmd "restart", "vpp"
     systemctlcmd "enable", "vpp"
     sleep 10
-    systemctlcmd "is-active", "vpp"
-    systemctlcmd "is-enabled", "vpp"
 
     #Configure VPP interfaces
     configure_vpp_interfaces
