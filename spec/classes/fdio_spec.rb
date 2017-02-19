@@ -46,9 +46,10 @@ describe 'fdio' do
 
   shared_examples_for 'fdio - config' do
     it {
-      should contain_file('/etc/vpp/startup.conf').with(
-        'path' => '/etc/vpp/startup.conf',
-      )
+      should contain_vpp_config('dpdk/uio-driver').with_value('uio_pci_generic')
+      should contain_vpp_config('dpdk/dev/default')
+      should contain_vpp_config('cpu/main-core')
+      should contain_vpp_config('cpu/corelist-workers')
     }
     it {
       should contain_exec('insert_dpdk_kmod').with(
@@ -60,24 +61,12 @@ describe 'fdio' do
 
   shared_examples_for 'fdio - service' do
     it {
-      should contain_vpp_service('vpp').with(
-        'ensure' => 'present',
-        'pci_devs' => [],
-        'state'  => 'up',
+      should contain_service('vpp').with(
+        'ensure' => 'running',
+        'enable'  => true,
       )
     }
 
-    context 'with pci dev' do
-      let(:params) {{:vpp_dpdk_devs => ['0000:00:07.0']}}
-
-      it {
-        should contain_vpp_service('vpp').with(
-          'ensure' => 'present',
-          'pci_devs' => ['0000:00:07.0'],
-          'state' => 'up',
-        )
-      }
-    end
   end
 
   context 'on RedHat platforms' do

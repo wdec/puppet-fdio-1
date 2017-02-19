@@ -10,7 +10,7 @@ if [ "$puppet_version" != "latest" ]; then
   export PUPPET_GEM_VERSION="~> $puppet_version.0"
 fi
 
-mkdir .bundled_gems
+mkdir -p .bundled_gems
 export GEM_HOME=`pwd`/.bundled_gems
 gem install bundler --no-rdoc --no-ri --verbose
 $GEM_HOME/bin/bundle install --retry 3

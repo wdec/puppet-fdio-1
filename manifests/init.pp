@@ -4,7 +4,8 @@
 #
 # === Parameters:
 # [*repo_branch*]
-#   (optional) fd.io repo branch, valid values are 'release', 'master', and stable branch such as 'stable.1609'.
+#   (optional) fd.io repo branch.
+#   Valid values are 'release', 'master' and stable branch like 'stable.1609'.
 #   Defaults to 'release'.
 #
 # [*vpp_dpdk_devs*]
@@ -15,17 +16,21 @@
 #   (optional) VPP DPDK UIO driver type.
 #   Defaults to 'uio_pci_generic'
 #
-# [*vpp_vlan_enabled*]
-#   (optional) Enabled vlan tagged traffic on VPP interfaces. This is needed to configure
-#              vlan_strip_offload option for Cisco VIC interfaces.
-#   Default to false.
+# [*vpp_dpdk_dev_default_options*]
+#   (optional) VPP interface default options configuration.
+#   This will configure dev default {options}. It should be a string
+#   containing all of the desired options.
+#   Example: 'vlan-strip-offload on num-rx-queues 3'
+#   Default to undef.
 #
 # [*vpp_cpu_main_core*]
-#   (optional) VPP main thread pinning.
+#   (optional) VPP main thread pinning core.
 #   Defaults to undef (no pinning)
 #
 # [*vpp_cpu_corelist_workers*]
-#   (optional) List of cores for VPP worker thread pinning in string format.
+#   (optional) Comma separated list of cores for VPP worker thread pinning in
+#   string format.
+#   Example: '2,3'.
 #   Defaults to undef (no pinning)
 #
 # [*copy_kernel_nic_ip*]
@@ -33,18 +38,16 @@
 #   Defaults to true
 #
 class fdio (
-  $repo_branch              = $::fdio::params::repo_branch,
-  $vpp_dpdk_devs            = $::fdio::params::vpp_dpdk_devs,
-  $vpp_dpdk_uio_driver      = $::fdio::params::vpp_dpdk_uio_driver,
-  $vpp_vlan_enabled         = $::fdio::params::vpp_vlan_enabled,
-  $vpp_cpu_main_core        = $::fdio::params::vpp_cpu_main_core,
-  $vpp_cpu_corelist_workers = $::fdio::params::vpp_cpu_corelist_workers,
-  $copy_kernel_nic_ip       = $::fdio::params::copy_kernel_nic_ip,
+  $repo_branch                  = $::fdio::params::repo_branch,
+  $vpp_dpdk_devs                = $::fdio::params::vpp_dpdk_devs,
+  $vpp_dpdk_uio_driver          = $::fdio::params::vpp_dpdk_uio_driver,
+  $vpp_dpdk_dev_default_options = $::fdio::params::vpp_dpdk_dev_default_options,
+  $vpp_cpu_main_core            = $::fdio::params::vpp_cpu_main_core,
+  $vpp_cpu_corelist_workers     = $::fdio::params::vpp_cpu_corelist_workers,
+  $copy_kernel_nic_ip           = $::fdio::params::copy_kernel_nic_ip,
 ) inherits ::fdio::params {
 
   validate_array($vpp_dpdk_devs)
-  validate_bool($vpp_vlan_enabled)
-  validate_bool($copy_kernel_nic_ip)
 
   # Validate OS family
   case $::osfamily {

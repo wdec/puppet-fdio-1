@@ -9,7 +9,7 @@ os=$1
 
 sudo sysctl -w vm.nr_hugepages=1024
 cat /proc/meminfo | grep Huge
-mkdir .bundled_gems
+mkdir -p .bundled_gems
 export GEM_HOME=`pwd`/.bundled_gems
 gem install bundler --no-rdoc --no-ri --verbose
 $GEM_HOME/bin/bundle install --retry 3

@@ -75,7 +75,7 @@ class fdio::honeycomb (
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
-    require    => [ Vpp_service['vpp'], Package['honeycomb'] ],
+    require    => [ Service['vpp'], Package['honeycomb'] ],
     restart    => 'systemctl stop vpp;systemctl stop honeycomb;rm -rf /var/lib/honeycomb/persist/*;systemctl start vpp; sleep 5;systemctl start honeycomb',
   }
 

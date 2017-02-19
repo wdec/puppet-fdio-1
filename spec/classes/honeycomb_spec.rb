@@ -15,7 +15,7 @@ describe 'fdio::honeycomb' do
   it { should contain_file('honeycomb.json').that_requires('Package[honeycomb]') }
   it { should contain_file('honeycomb.json').that_notifies('Service[honeycomb]') }
   it { should contain_service('honeycomb').that_requires('Package[honeycomb]') }
-  it { should contain_service('honeycomb').that_requires('Vpp_service[vpp]') }
+  it { should contain_service('honeycomb').that_requires('Service[vpp]') }
 
   it { should contain_file('honeycomb.json').with(
     'ensure'  => 'file',
