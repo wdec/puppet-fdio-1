@@ -81,16 +81,25 @@ class fdio::honeycomb (
 
   if !empty($opendaylight_ip) {
     validate_ip_address($opendaylight_ip)
-
+    $odl_url = "http://${opendaylight_ip}:${opendaylight_port}"
     $fdio_data = "{'node' : [{'node-id':'${node_id}','netconf-node-topology:host':'${bind_ip}','netconf-node-topology:port':'2831','netconf-node-topology:tcp-only':false,'netconf-node-topology:keepalive-delay':0,'netconf-node-topology:username':'${opendaylight_username}','netconf-node-topology:password':'${opendaylight_password}','netconf-node-topology:connection-timeout-millis':10000,'netconf-node-topology:default-request-timeout-millis':10000,'netconf-node-topology:max-connection-attempts':10,'netconf-node-topology:between-attempts-timeout-millis':10000,'netconf-node-topology:schema-cache-directory':'hcmount'}]}"
-    $fdio_url = "http://${opendaylight_ip}:${opendaylight_port}/restconf/config/network-topology:network-topology/network-topology:topology/topology-netconf/node/${node_id}"
+    $fdio_url = "${odl_url}/restconf/config/network-topology:network-topology/network-topology:topology/topology-netconf/node/${node_id}"
+    $oper_mount_url = "${odl_url}/restconf/operational/renderer:renderers"
 
     exec { 'VPP Mount into ODL':
       command   => "curl -o /dev/null --fail --silent -u ${opendaylight_username}:${opendaylight_password} ${fdio_url} -i -H 'Content-Type: application/json' --data \"${fdio_data}\" -X PUT",
       tries     => 5,
       try_sleep => 30,
       path      => '/usr/sbin:/usr/bin:/sbin:/bin',
-      require   => Service['honeycomb'],
+      notify    => Service['honeycomb'],
+    }
+
+    exec { 'Check VPP was mounted into ODL operational DS':
+      command   => "curl --fail -u ${opendaylight_username}:${opendaylight_password} ${oper_mount_url} | grep ${node_id}",
+      tries     => 5,
+      try_sleep => 30,
+      path      => '/usr/sbin:/usr/bin:/sbin:/bin',
+      subscribe => Service['honeycomb'],
     }
   }
 }
