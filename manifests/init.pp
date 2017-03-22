@@ -8,6 +8,10 @@
 #   Valid values are 'release', 'master' and stable branch like 'stable.1609'.
 #   Defaults to 'release'.
 #
+# [*vpp_dpdk_support*]
+#   (optional) Enable DPDK support for VPP
+#   Defaults to true
+#
 # [*vpp_dpdk_devs*]
 #   (optional) Array of PCI addresses to bind to vpp.
 #   Defaults to undef.
@@ -39,6 +43,7 @@
 #
 class fdio (
   $repo_branch                  = $::fdio::params::repo_branch,
+  $vpp_dpdk_support             = $::fdio::params::vpp_dpdk_support,
   $vpp_dpdk_devs                = $::fdio::params::vpp_dpdk_devs,
   $vpp_dpdk_uio_driver          = $::fdio::params::vpp_dpdk_uio_driver,
   $vpp_dpdk_dev_default_options = $::fdio::params::vpp_dpdk_dev_default_options,

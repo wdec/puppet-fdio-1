@@ -36,7 +36,7 @@ Puppet::Type.type(:vpp_config).provide(:vpp) do
     scanner = StringScanner.new vpp_config
 
     #first skip to section beginning
-    string = scanner.scan_until(/#{@section}\s*{\s*/)
+    string = scanner.scan_until(/^\s*#{@section}\s*{\s*/)
 
     #if we can't find the section, add it to the end
     return vpp_config+"\n#{@section} {", "", "}\n" unless string

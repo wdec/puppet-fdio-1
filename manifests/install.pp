@@ -22,4 +22,11 @@ class fdio::install {
     ensure  => present,
     require => Yumrepo["fdio-${fdio::repo_branch}"],
   }
+
+  if $fdio::vpp_dpdk_support {
+    package { 'vpp-plugins':
+      ensure  => present,
+      require => Package['vpp'],
+    }
+  }
 }

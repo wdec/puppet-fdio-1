@@ -28,6 +28,7 @@ describe 'fdio::honeycomb' do
       it { should be_running }
       it { should be_enabled }
     end
+
   end
 
 end

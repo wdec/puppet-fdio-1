@@ -41,6 +41,7 @@ describe 'fdio' do
         )
       }
       it { should contain_package('vpp').that_requires('Yumrepo[fdio-stable.1609]') }
+      it { should contain_package('vpp-plugins').that_requires('Package[vpp]') }
     end
   end
 

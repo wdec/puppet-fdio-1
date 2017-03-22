@@ -6,7 +6,9 @@ describe 'fdio' do
 
     it 'should work with no errors' do
       pp= <<-EOS
-      class { '::fdio': }
+      class { '::fdio':
+        repo_branch => 'master'
+      }
       EOS
 
       apply_manifest(pp, :catch_failures => true)
@@ -26,6 +28,7 @@ describe 'fdio' do
       it { should be_running }
       it { should be_enabled }
     end
+
   end
 
   context 'pinning' do
