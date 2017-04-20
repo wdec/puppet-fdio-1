@@ -82,7 +82,7 @@ class fdio::honeycomb (
   if !empty($opendaylight_ip) {
     validate_ip_address($opendaylight_ip)
     $odl_url = "http://${opendaylight_ip}:${opendaylight_port}"
-    $fdio_data = "{'node' : [{'node-id':'${node_id}','netconf-node-topology:host':'${bind_ip}','netconf-node-topology:port':'2831','netconf-node-topology:tcp-only':false,'netconf-node-topology:keepalive-delay':0,'netconf-node-topology:username':'${opendaylight_username}','netconf-node-topology:password':'${opendaylight_password}','netconf-node-topology:connection-timeout-millis':10000,'netconf-node-topology:default-request-timeout-millis':10000,'netconf-node-topology:max-connection-attempts':10,'netconf-node-topology:between-attempts-timeout-millis':10000,'netconf-node-topology:schema-cache-directory':'hcmount'}]}"
+    $fdio_data = "{'node' : [{'node-id':'${node_id}','netconf-node-topology:host':'${bind_ip}','netconf-node-topology:port':'2831','netconf-node-topology:tcp-only':false,'netconf-node-topology:keepalive-delay':0,'netconf-node-topology:username':'${opendaylight_username}','netconf-node-topology:password':'${opendaylight_password}','netconf-node-topology:connection-timeout-millis':10000,'netconf-node-topology:default-request-timeout-millis':10000,'netconf-node-topology:max-connection-attempts':10,'netconf-node-topology:between-attempts-timeout-millis':10000}]}"
     $fdio_url = "${odl_url}/restconf/config/network-topology:network-topology/network-topology:topology/topology-netconf/node/${node_id}"
     $oper_mount_url = "${odl_url}/restconf/operational/renderer:renderers"
 
