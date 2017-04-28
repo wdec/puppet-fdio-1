@@ -39,6 +39,14 @@
 #   (optional) Node ID for binding VPP to Opendaylight
 #   Defaults to $::fqdn
 #
+# [*interface_role_map*]
+#   (optional) List of interface role mapping in the format
+#              of <VPP interface name>:<role name>
+#   Example:
+#      [ 'GigabitEthernet0/5/0:public-interface',
+#        'GigabitEthernet0/6/0:tenant-interface' ]
+#   Defaults to undef
+#
 class fdio::honeycomb (
   $opendaylight_ip       = '',
   $opendaylight_port     = '8081',
@@ -50,7 +58,10 @@ class fdio::honeycomb (
   $password              = 'admin',
   $bind_ip               = '127.0.0.1',
   $node_id               = $::fqdn,
+  $interface_role_map    = [],
 ) {
+
+  validate_array($interface_role_map)
 
   include ::fdio
 
@@ -91,15 +102,23 @@ class fdio::honeycomb (
       tries     => 5,
       try_sleep => 30,
       path      => '/usr/sbin:/usr/bin:/sbin:/bin',
-      notify    => Service['honeycomb'],
-    }
-
+      require   => Service['honeycomb'],
+    }->
     exec { 'Check VPP was mounted into ODL operational DS':
       command   => "curl --fail -u ${opendaylight_username}:${opendaylight_password} ${oper_mount_url} | grep ${node_id}",
       tries     => 5,
       try_sleep => 30,
       path      => '/usr/sbin:/usr/bin:/sbin:/bin',
-      subscribe => Service['honeycomb'],
+    }
+
+    if !empty($interface_role_map) {
+      configure_role_mappings { $interface_role_map:
+        honeycomb_username => $user,
+        honeycomb_password => $password,
+        honeycomb_url      => "http://${bind_ip}:${rest_port}",
+        require            => Service['honeycomb'],
+        before             => Exec['VPP Mount into ODL'],
+      }
     }
   }
 }

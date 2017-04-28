@@ -7,7 +7,7 @@ describe 'fdio' do
     it 'should work with no errors' do
       pp= <<-EOS
       class { '::fdio':
-        repo_branch => 'master'
+        repo_branch => 'release'
       }
       EOS
 
