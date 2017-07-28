@@ -90,9 +90,9 @@ class fdio (
     }
   }
 
-  class { '::fdio::install': } ->
-  class { '::fdio::config': } ~>
-  class { '::fdio::service': } ->
-  Class['::fdio']
+  class { '::fdio::install': }
+  -> class { '::fdio::config': }
+  ~> class { '::fdio::service': }
+  -> Class['::fdio']
 
 }

@@ -69,9 +69,8 @@ class fdio::honeycomb (
     ensure  => present,
     require => Package['vpp'],
   }
-  ->
   # Configuration of Honeycomb
-  file { 'honeycomb.json':
+  -> file { 'honeycomb.json':
     ensure  => file,
     path    => '/opt/honeycomb/config/honeycomb.json',
     # Set user:group owners
@@ -80,8 +79,7 @@ class fdio::honeycomb (
     # Use a template to populate the content
     content => template('fdio/honeycomb.json.erb'),
   }
-  ~>
-  service { 'honeycomb':
+  ~> service { 'honeycomb':
     ensure     => running,
     enable     => true,
     hasstatus  => true,
@@ -103,8 +101,8 @@ class fdio::honeycomb (
       try_sleep => 30,
       path      => '/usr/sbin:/usr/bin:/sbin:/bin',
       require   => Service['honeycomb'],
-    }->
-    exec { 'Check VPP was mounted into ODL operational DS':
+    }
+    -> exec { 'Check VPP was mounted into ODL operational DS':
       command   => "curl --fail -u ${opendaylight_username}:${opendaylight_password} ${oper_mount_url} | grep ${node_id}",
       tries     => 5,
       try_sleep => 30,
@@ -112,7 +110,7 @@ class fdio::honeycomb (
     }
 
     if !empty($interface_role_map) {
-      configure_role_mappings { $interface_role_map:
+      fdio::honeycomb::configure_role_mappings { $interface_role_map:
         honeycomb_username => $user,
         honeycomb_password => $password,
         honeycomb_url      => "http://${bind_ip}:${rest_port}",
