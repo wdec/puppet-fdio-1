@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe 'fdio' do
 
+    let :params do
+      {}
+    end
+
   shared_examples_for 'fdio - default' do
     it { should compile }
     it { should compile.with_all_deps }
@@ -58,6 +62,15 @@ describe 'fdio' do
         'unless'  => 'lsmod | grep uio_pci_generic',
       )
     }
+
+    context 'with socket_mem' do
+      before :each do
+        params.merge!(:vpp_dpdk_socket_mem => '1024,1024')
+      end
+      it 'should configure socket_mem' do
+        is_expected.to contain_vpp_config('dpdk/socket-mem').with_value('1024,1024')
+      end
+    end
   end
 
   shared_examples_for 'fdio - service' do

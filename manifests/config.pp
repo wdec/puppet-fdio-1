@@ -16,6 +16,7 @@ class fdio::config {
     vpp_config {
       'dpdk/dev/default': value => $fdio::vpp_dpdk_dev_default_options;
       'dpdk/uio-driver': value => $fdio::vpp_dpdk_uio_driver;
+      'dpdk/socket-mem': value => $fdio::vpp_dpdk_socket_mem;
     }
 
     fdio::config::vpp_devices {  $fdio::vpp_dpdk_devs: }

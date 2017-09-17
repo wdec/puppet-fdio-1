@@ -27,6 +27,11 @@
 #   Example: 'vlan-strip-offload on num-rx-queues 3'
 #   Default to undef.
 #
+# [*vpp_dpdk_socket_mem*]
+#   (optional) DPDK hugepage memory allocation per socket.
+#   Example: '1024,1024'
+#   Default to undef.
+#
 # [*vpp_cpu_main_core*]
 #   (optional) VPP main thread pinning core.
 #   Defaults to undef (no pinning)
@@ -47,6 +52,7 @@ class fdio (
   $vpp_dpdk_devs                = $::fdio::params::vpp_dpdk_devs,
   $vpp_dpdk_uio_driver          = $::fdio::params::vpp_dpdk_uio_driver,
   $vpp_dpdk_dev_default_options = $::fdio::params::vpp_dpdk_dev_default_options,
+  $vpp_dpdk_socket_mem          = $::fdio::params::vpp_dpdk_socket_mem,
   $vpp_cpu_main_core            = $::fdio::params::vpp_cpu_main_core,
   $vpp_cpu_corelist_workers     = $::fdio::params::vpp_cpu_corelist_workers,
   $copy_kernel_nic_ip           = $::fdio::params::copy_kernel_nic_ip,
