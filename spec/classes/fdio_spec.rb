@@ -71,6 +71,21 @@ describe 'fdio' do
         is_expected.to contain_vpp_config('dpdk/socket-mem').with_value('1024,1024')
       end
     end
+
+    context 'with vhost-user' do
+      before :each do
+        params.merge!(
+          :vpp_vhostuser_coalesce_frames => 32,
+          :vpp_vhostuser_coalesce_time => 0.05,
+          :vpp_vhostuser_dont_dump_memory => true
+        )
+      end
+      it 'should configure vhost-user options' do
+        is_expected.to contain_vpp_config('vhost-user/coalesce-frames').with_value('32')
+        is_expected.to contain_vpp_config('vhost-user/coalesce-time').with_value('0.05')
+        is_expected.to contain_vpp_config('vhost-user/dont-dump-memory').with_ensure('present')
+      end
+    end
   end
 
   shared_examples_for 'fdio - service' do

@@ -16,7 +16,7 @@ Puppet::Type.type(:vpp_config).provide(:vpp) do
     end
 
     if @dev
-      @search_regex = /^\s*dev\s+#{@dev}\s*({[^}]*})?/
+      @search_regex = /^\s*dev\s+#{@dev}\s*{([^}]*)}?/
     else
       @search_regex = /^\s*#{@real_setting}\s+(\S+)?/
     end

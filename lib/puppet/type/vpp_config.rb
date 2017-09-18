@@ -7,7 +7,7 @@ Puppet::Type.newtype(:vpp_config) do
 
   newproperty(:value) do
     munge do |value|
-      value.strip if value.is_a? String
+      value.to_s.strip
     end
   end
 

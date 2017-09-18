@@ -31,13 +31,16 @@ describe 'fdio' do
 
   end
 
-  context 'pinning' do
+  context 'with options' do
     it 'should work with no errors' do
       pp= <<-EOS
       class { '::fdio':
         repo_branch => 'stable.1707',
         vpp_cpu_main_core => '1',
         vpp_cpu_corelist_workers => '2',
+        vpp_vhostuser_coalesce_frames => 32,
+        vpp_vhostuser_coalesce_time => 0.05,
+        vpp_vhostuser_dont_dump_memory => true,
       }
       EOS
 
@@ -48,7 +51,9 @@ describe 'fdio' do
     describe file('/etc/vpp/startup.conf') do
       its(:content) { should match /main-core\s+1/ }
       its(:content) { should match /corelist-workers\s+2/ }
+      its(:content) { should match /coalesce-frames\s+32/ }
+      its(:content) { should match /coalesce-time\s+0.05/ }
+      its(:content) { should match /dont-dump-memory/ }
     end
-
   end
 end

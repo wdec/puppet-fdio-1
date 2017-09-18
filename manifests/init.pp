@@ -42,20 +42,38 @@
 #   Example: '2,3'.
 #   Defaults to undef (no pinning)
 #
+# [*vpp_vhostuser_coalesce_frames*]
+#   (optional) vhost-user coalesce frames.
+#   Example: 32
+#   Defaults to undef
+#
+# [*vpp_vhostuser_coalesce_time*]
+#   (optional) vhost-user coalesce time in seconds
+#   Example: 0.005
+#   Defaults to undef
+#
+# [*vpp_vhostuser_dont_dump_memory*]
+#   (optional) vhost-user dont-dump-memory option. Avoids dumping vhost-user
+#   shared memory segments to core files.
+#   Defaults to false
+#
 # [*copy_kernel_nic_ip*]
 #   (optional) Configures VPP interface with IP settings found on its corresponding kernel NIC.
 #   Defaults to true
 #
 class fdio (
-  $repo_branch                  = $::fdio::params::repo_branch,
-  $vpp_dpdk_support             = $::fdio::params::vpp_dpdk_support,
-  $vpp_dpdk_devs                = $::fdio::params::vpp_dpdk_devs,
-  $vpp_dpdk_uio_driver          = $::fdio::params::vpp_dpdk_uio_driver,
-  $vpp_dpdk_dev_default_options = $::fdio::params::vpp_dpdk_dev_default_options,
-  $vpp_dpdk_socket_mem          = $::fdio::params::vpp_dpdk_socket_mem,
-  $vpp_cpu_main_core            = $::fdio::params::vpp_cpu_main_core,
-  $vpp_cpu_corelist_workers     = $::fdio::params::vpp_cpu_corelist_workers,
-  $copy_kernel_nic_ip           = $::fdio::params::copy_kernel_nic_ip,
+  $repo_branch                    = $::fdio::params::repo_branch,
+  $vpp_dpdk_support               = $::fdio::params::vpp_dpdk_support,
+  $vpp_dpdk_devs                  = $::fdio::params::vpp_dpdk_devs,
+  $vpp_dpdk_uio_driver            = $::fdio::params::vpp_dpdk_uio_driver,
+  $vpp_dpdk_dev_default_options   = $::fdio::params::vpp_dpdk_dev_default_options,
+  $vpp_dpdk_socket_mem            = $::fdio::params::vpp_dpdk_socket_mem,
+  $vpp_cpu_main_core              = $::fdio::params::vpp_cpu_main_core,
+  $vpp_cpu_corelist_workers       = $::fdio::params::vpp_cpu_corelist_workers,
+  $vpp_vhostuser_coalesce_frames  = $::fdio::params::vpp_vhostuser_coalesce_frames,
+  $vpp_vhostuser_coalesce_time    = $::fdio::params::vpp_vhostuser_coalesce_time,
+  $vpp_vhostuser_dont_dump_memory = $::fdio::params::vpp_vhostuser_dont_dump_memory,
+  $copy_kernel_nic_ip             = $::fdio::params::copy_kernel_nic_ip,
 ) inherits ::fdio::params {
 
   validate_array($vpp_dpdk_devs)

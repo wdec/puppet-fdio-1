@@ -11,5 +11,8 @@ class fdio::params {
   $vpp_dpdk_socket_mem = undef
   $vpp_cpu_main_core = undef
   $vpp_cpu_corelist_workers = undef
+  $vpp_vhostuser_coalesce_frames = undef
+  $vpp_vhostuser_coalesce_time = undef
+  $vpp_vhostuser_dont_dump_memory = false
   $copy_kernel_nic_ip = true
 }
