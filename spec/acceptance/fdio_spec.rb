@@ -44,6 +44,8 @@ describe 'fdio' do
         vpp_tuntap_enable => true,
         vpp_tuntap_mtu => 9000,
         vpp_tapcli_mtu => 8000,
+        vpp_exec_commands => 'test line 1',
+        vpp_exec_file => '/etc/vpp/vpp-exec'
       }
       EOS
 
@@ -60,6 +62,11 @@ describe 'fdio' do
       its(:content) { should match /enable/ }
       its(:content) { should match /mtu 9000/ }
       its(:content) { should match /mtu 8000/ }
+      its(:content) { should match /\/etc\/vpp\/vpp-exec/ }
+    end
+
+    describe file('/etc/vpp/vpp-exec') do
+      its(:content) { should match /test line 1/ }
     end
   end
 end

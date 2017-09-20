@@ -50,6 +50,18 @@ class fdio::config {
     }
   }
 
+  if !empty($fdio::vpp_exec_commands) {
+    file { $fdio::vpp_exec_file:
+      ensure => present,
+    }
+    fdio::config::vpp_exec_line { $fdio::vpp_exec_commands:
+      path => $fdio::vpp_exec_file,
+    }
+    vpp_config {
+      'unix/exec': value => $fdio::vpp_exec_file;
+    }
+  }
+
   vpp_config {
     'cpu/main-core': value => $fdio::vpp_cpu_main_core;
     'cpu/corelist-workers': value => $fdio::vpp_cpu_corelist_workers;

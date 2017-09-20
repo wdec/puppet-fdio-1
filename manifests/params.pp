@@ -4,6 +4,8 @@
 #
 class fdio::params {
   $repo_branch = 'release'
+  $vpp_exec_commands = undef
+  $vpp_exec_file = '/etc/vpp/vpp-exec'
   $vpp_dpdk_support = true
   $vpp_dpdk_devs = []
   $vpp_dpdk_uio_driver = 'uio_pci_generic'

@@ -8,6 +8,15 @@
 #   Valid values are 'release', 'master' and stable branch like 'stable.1609'.
 #   Defaults to 'release'.
 #
+# [*vpp_exec_commands*]
+#   (optional) array of VPP startup exec commands
+#   Defaults to undef
+#
+# [*vpp_exec_file*]
+#   (optional) VPP startup exec file path. Existing config file will not be
+#   overwritten, vpp_exec_commands will be appended.
+#   Defaults to '/etc/vpp/vpp-exec'
+#
 # [*vpp_dpdk_support*]
 #   (optional) Enable DPDK support for VPP
 #   Defaults to true
@@ -76,6 +85,8 @@
 #
 class fdio (
   $repo_branch                    = $::fdio::params::repo_branch,
+  $vpp_exec_commands              = $::fdio::params::vpp_exec_commands,
+  $vpp_exec_file                  = $::fdio::params::vpp_exec_file,
   $vpp_dpdk_support               = $::fdio::params::vpp_dpdk_support,
   $vpp_dpdk_devs                  = $::fdio::params::vpp_dpdk_devs,
   $vpp_dpdk_uio_driver            = $::fdio::params::vpp_dpdk_uio_driver,
