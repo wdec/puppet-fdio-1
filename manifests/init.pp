@@ -57,6 +57,19 @@
 #   shared memory segments to core files.
 #   Defaults to false
 #
+# [*vpp_tuntap_enable*]
+#   (optional) enable VPP tuntap driver
+#   Valid values are true or false.
+#   Defaults to undef
+#
+# [*vpp_tuntap_mtu*]
+#   (optional) VPP tuntap interface MTU
+#   Defaults to undef
+#
+# [*vpp_tapcli_mtu*]
+#   (optional) VPP tapcli interface MTU
+#   Defaults to undef
+#
 # [*copy_kernel_nic_ip*]
 #   (optional) Configures VPP interface with IP settings found on its corresponding kernel NIC.
 #   Defaults to true
@@ -73,6 +86,9 @@ class fdio (
   $vpp_vhostuser_coalesce_frames  = $::fdio::params::vpp_vhostuser_coalesce_frames,
   $vpp_vhostuser_coalesce_time    = $::fdio::params::vpp_vhostuser_coalesce_time,
   $vpp_vhostuser_dont_dump_memory = $::fdio::params::vpp_vhostuser_dont_dump_memory,
+  $vpp_tuntap_enable              = $::fdio::params::vpp_tuntap_enable,
+  $vpp_tuntap_mtu                 = $::fdio::params::vpp_tuntap_mtu,
+  $vpp_tapcli_mtu                 = $::fdio::params::vpp_tapcli_mtu,
   $copy_kernel_nic_ip             = $::fdio::params::copy_kernel_nic_ip,
 ) inherits ::fdio::params {
 
