@@ -14,5 +14,8 @@ class fdio::params {
   $vpp_vhostuser_coalesce_frames = undef
   $vpp_vhostuser_coalesce_time = undef
   $vpp_vhostuser_dont_dump_memory = false
+  $vpp_tuntap_enable = undef
+  $vpp_tuntap_mtu = undef
+  $vpp_tapcli_mtu = undef
   $copy_kernel_nic_ip = true
 }
