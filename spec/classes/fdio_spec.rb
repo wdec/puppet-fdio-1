@@ -86,6 +86,36 @@ describe 'fdio' do
         is_expected.to contain_vpp_config('vhost-user/dont-dump-memory').with_ensure('present')
       end
     end
+
+    context 'with tuntap/tapcli' do
+      before :each do
+        params.merge!(
+          :vpp_tuntap_enable => true,
+          :vpp_tuntap_mtu => 9000,
+          :vpp_tapcli_mtu => 9000
+        )
+      end
+      it 'should configure vhost-user options' do
+        is_expected.to contain_vpp_config('tuntap/enable').with_ensure('present')
+        is_expected.to contain_vpp_config('tuntap/mtu').with_value('9000')
+        is_expected.to contain_vpp_config('tapcli/mtu').with_value('9000')
+      end
+    end
+
+    context 'with exec commands' do
+      before :each do
+        params.merge!(
+          :vpp_exec_commands => ['test line 1', 'test line 2'],
+          :vpp_exec_file => '/etc/vpp/test_exec_file'
+        )
+      end
+      it 'should configure exec lines' do
+        is_expected.to contain_file('/etc/vpp/test_exec_file').with_ensure('present')
+        is_expected.to contain_vpp_config('unix/exec').with_value('/etc/vpp/test_exec_file')
+        is_expected.to contain_fdio__config__vpp_exec_line('test line 1')
+        is_expected.to contain_fdio__config__vpp_exec_line('test line 2')
+      end
+    end
   end
 
   shared_examples_for 'fdio - service' do

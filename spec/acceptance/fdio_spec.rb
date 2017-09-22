@@ -41,6 +41,11 @@ describe 'fdio' do
         vpp_vhostuser_coalesce_frames => 32,
         vpp_vhostuser_coalesce_time => 0.05,
         vpp_vhostuser_dont_dump_memory => true,
+        vpp_tuntap_enable => true,
+        vpp_tuntap_mtu => 9000,
+        vpp_tapcli_mtu => 8000,
+        vpp_exec_commands => 'test line 1',
+        vpp_exec_file => '/etc/vpp/vpp-exec'
       }
       EOS
 
@@ -54,6 +59,14 @@ describe 'fdio' do
       its(:content) { should match /coalesce-frames\s+32/ }
       its(:content) { should match /coalesce-time\s+0.05/ }
       its(:content) { should match /dont-dump-memory/ }
+      its(:content) { should match /enable/ }
+      its(:content) { should match /mtu 9000/ }
+      its(:content) { should match /mtu 8000/ }
+      its(:content) { should match /\/etc\/vpp\/vpp-exec/ }
+    end
+
+    describe file('/etc/vpp/vpp-exec') do
+      its(:content) { should match /test line 1/ }
     end
   end
 end

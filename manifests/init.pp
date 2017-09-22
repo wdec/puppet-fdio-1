@@ -8,6 +8,15 @@
 #   Valid values are 'release', 'master' and stable branch like 'stable.1609'.
 #   Defaults to 'release'.
 #
+# [*vpp_exec_commands*]
+#   (optional) array of VPP startup exec commands
+#   Defaults to undef
+#
+# [*vpp_exec_file*]
+#   (optional) VPP startup exec file path. Existing config file will not be
+#   overwritten, vpp_exec_commands will be appended.
+#   Defaults to '/etc/vpp/vpp-exec'
+#
 # [*vpp_dpdk_support*]
 #   (optional) Enable DPDK support for VPP
 #   Defaults to true
@@ -57,12 +66,27 @@
 #   shared memory segments to core files.
 #   Defaults to false
 #
+# [*vpp_tuntap_enable*]
+#   (optional) enable VPP tuntap driver
+#   Valid values are true or false.
+#   Defaults to undef
+#
+# [*vpp_tuntap_mtu*]
+#   (optional) VPP tuntap interface MTU
+#   Defaults to undef
+#
+# [*vpp_tapcli_mtu*]
+#   (optional) VPP tapcli interface MTU
+#   Defaults to undef
+#
 # [*copy_kernel_nic_ip*]
 #   (optional) Configures VPP interface with IP settings found on its corresponding kernel NIC.
 #   Defaults to true
 #
 class fdio (
   $repo_branch                    = $::fdio::params::repo_branch,
+  $vpp_exec_commands              = $::fdio::params::vpp_exec_commands,
+  $vpp_exec_file                  = $::fdio::params::vpp_exec_file,
   $vpp_dpdk_support               = $::fdio::params::vpp_dpdk_support,
   $vpp_dpdk_devs                  = $::fdio::params::vpp_dpdk_devs,
   $vpp_dpdk_uio_driver            = $::fdio::params::vpp_dpdk_uio_driver,
@@ -73,6 +97,9 @@ class fdio (
   $vpp_vhostuser_coalesce_frames  = $::fdio::params::vpp_vhostuser_coalesce_frames,
   $vpp_vhostuser_coalesce_time    = $::fdio::params::vpp_vhostuser_coalesce_time,
   $vpp_vhostuser_dont_dump_memory = $::fdio::params::vpp_vhostuser_dont_dump_memory,
+  $vpp_tuntap_enable              = $::fdio::params::vpp_tuntap_enable,
+  $vpp_tuntap_mtu                 = $::fdio::params::vpp_tuntap_mtu,
+  $vpp_tapcli_mtu                 = $::fdio::params::vpp_tapcli_mtu,
   $copy_kernel_nic_ip             = $::fdio::params::copy_kernel_nic_ip,
 ) inherits ::fdio::params {
 
