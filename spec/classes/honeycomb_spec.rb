@@ -7,6 +7,8 @@ describe 'fdio::honeycomb' do
       :operatingsystemmajrelease => '7',
   }}
 
+  let(:pre_condition) { 'include fdio' }
+
   it { should compile }
   it { should compile.with_all_deps }
   it { should contain_class('fdio::honeycomb') }

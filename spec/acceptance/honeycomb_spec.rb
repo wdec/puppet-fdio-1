@@ -5,6 +5,7 @@ describe 'fdio::honeycomb' do
   describe 'default parameters' do
     it 'should work with no errors' do
       pp= <<-EOS
+      class { '::fdio': }
       class { '::fdio::honeycomb': }
       EOS
 

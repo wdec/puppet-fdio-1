@@ -63,8 +63,6 @@ class fdio::honeycomb (
 
   validate_array($interface_role_map)
 
-  include ::fdio
-
   package { 'honeycomb':
     ensure  => present,
     require => Package['vpp'],
@@ -85,7 +83,6 @@ class fdio::honeycomb (
     hasstatus  => true,
     hasrestart => true,
     require    => [ Service['vpp'], Package['honeycomb'] ],
-    restart    => 'systemctl stop vpp;systemctl stop honeycomb;rm -rf /var/lib/honeycomb/persist/*;systemctl start vpp; sleep 5;systemctl start honeycomb',
   }
 
   if !empty($opendaylight_ip) {
