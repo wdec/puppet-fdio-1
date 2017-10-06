@@ -67,17 +67,32 @@ class fdio::honeycomb (
     ensure  => present,
     require => Package['vpp'],
   }
+
   # Configuration of Honeycomb
-  -> file { 'honeycomb.json':
-    ensure  => file,
-    path    => '/opt/honeycomb/config/honeycomb.json',
-    # Set user:group owners
-    owner   => 'honeycomb',
-    group   => 'honeycomb',
-    # Use a template to populate the content
-    content => template('fdio/honeycomb.json.erb'),
+  augeas { 'credential.json':
+    lens    => 'Json.lns',
+    incl    => '/opt/honeycomb/config/credentials.json',
+    changes => [
+      "set /files/opt/honeycomb/config/credentials.json/dict/entry[. = 'username']/string ${user}",
+      "set /files/opt/honeycomb/config/credentials.json/dict/entry[. = 'password']/string ${password}",
+    ],
+    require => Package['honeycomb'],
+    before  => Service['honeycomb'],
   }
-  ~> service { 'honeycomb':
+  augeas { 'restconf.json':
+    lens    => 'Json.lns',
+    incl    => '/opt/honeycomb/config/restconf.json',
+    changes => [
+      "set /files/opt/honeycomb/config/restconf.json/dict/entry[. = 'restconf-binding-address']/string ${bind_ip}",
+      "set /files/opt/honeycomb/config/restconf.json/dict/entry[. = 'restconf-https-binding-address']/string ${bind_ip}",
+      "set /files/opt/honeycomb/config/restconf.json/dict/entry[. = 'restconf-port']/number ${rest_port}",
+      "set /files/opt/honeycomb/config/restconf.json/dict/entry[. = 'restconf-websocket-port']/number ${websocket_rest_port}",
+    ],
+    require => Package['honeycomb'],
+    before  => Service['honeycomb'],
+  }
+
+  service { 'honeycomb':
     ensure     => running,
     enable     => true,
     hasstatus  => true,
