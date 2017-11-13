@@ -64,6 +64,6 @@ class fdio::config {
 
   vpp_config {
     'cpu/main-core': value => $fdio::vpp_cpu_main_core;
-    'cpu/corelist-workers': value => $fdio::vpp_cpu_corelist_workers;
+    'cpu/corelist-workers': value =>  join(any2array($fdio::vpp_cpu_corelist_workers), ',');
   }
 }
