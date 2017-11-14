@@ -88,7 +88,7 @@ Valid options: list of PCI devices in the form of "DDDD:BB:SS.F"
 
 Sets the uio-driver for VPP
 
-Default: `uio_pci_generic`
+Default: `undef`
 
 Valid options: `vfio-pci`, `uio_pci_generic` and `igb_uio`. Note that `igb_uio` must be already loaded in the kernel before this module is invoked.
 
