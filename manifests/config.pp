@@ -6,11 +6,13 @@ class fdio::config {
 
   if $fdio::vpp_dpdk_support {
     # ensure that dpdk module is loaded
-    $dpdk_pmd_real = regsubst($fdio::vpp_dpdk_uio_driver, '-', '_', 'G')
-    exec { 'insert_dpdk_kmod':
-      command => "modprobe ${fdio::vpp_dpdk_uio_driver}",
-      unless  => "lsmod | grep ${dpdk_pmd_real}",
-      path    => '/bin:/sbin',
+    if !empty($fdio::vpp_dpdk_uio_driver) {
+      $dpdk_pmd_real = regsubst($fdio::vpp_dpdk_uio_driver, '-', '_', 'G')
+      exec { 'insert_dpdk_kmod':
+        command => "modprobe ${fdio::vpp_dpdk_uio_driver}",
+        unless  => "lsmod | grep ${dpdk_pmd_real}",
+        path    => '/bin:/sbin',
+      }
     }
 
     vpp_config {

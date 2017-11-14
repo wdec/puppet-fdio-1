@@ -21,7 +21,6 @@ describe 'fdio' do
 
     describe file('/etc/vpp/startup.conf') do
       it { is_expected.to exist }
-      its(:content) { should match /uio-driver\s+uio_pci_generic/ }
     end
 
     describe service('vpp') do

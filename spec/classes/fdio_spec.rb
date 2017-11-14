@@ -51,17 +51,23 @@ describe 'fdio' do
 
   shared_examples_for 'fdio - config' do
     it {
-      should contain_vpp_config('dpdk/uio-driver').with_value('uio_pci_generic')
       should contain_vpp_config('dpdk/dev/default')
       should contain_vpp_config('cpu/main-core')
       should contain_vpp_config('cpu/corelist-workers')
     }
-    it {
-      should contain_exec('insert_dpdk_kmod').with(
-        'command' => 'modprobe uio_pci_generic',
-        'unless'  => 'lsmod | grep uio_pci_generic',
-      )
-    }
+
+    context 'with uio_driver' do
+      before :each do
+        params.merge!(:vpp_dpdk_uio_driver => 'uio_pci_generic')
+      end
+      it 'should configure uio_driver setting' do
+        is_expected.to contain_vpp_config('dpdk/uio-driver').with_value('uio_pci_generic')
+        is_expected.to contain_exec('insert_dpdk_kmod').with(
+          'command' => 'modprobe uio_pci_generic',
+          'unless'  => 'lsmod | grep uio_pci_generic',
+        )
+      end
+    end
 
     context 'with socket_mem' do
       before :each do
