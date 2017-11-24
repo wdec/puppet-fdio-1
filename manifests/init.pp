@@ -27,7 +27,7 @@
 #
 # [*vpp_dpdk_uio_driver*]
 #   (optional) VPP DPDK UIO driver type.
-#   Defaults to 'uio_pci_generic'
+#   Defaults to 'undef'
 #
 # [*vpp_dpdk_dev_default_options*]
 #   (optional) VPP interface default options configuration.
