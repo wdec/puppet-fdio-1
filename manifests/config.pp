@@ -37,6 +37,19 @@ class fdio::config {
     }
   }
 
+  if $fdio::full_coredump {
+    vpp_config {
+      'unix/full-coredump': ensure => present;
+      'unix/coredump-size': value => $fdio::params::coredump_size;
+    }
+  }
+  else {
+      vpp_config {
+      #'unix/full-coredump': ensure => absent;
+      'unix/coredump-size': value => $fdio::params::coredump_size;
+    }
+  }
+
   if $fdio::vpp_tuntap_enable != undef {
     if $fdio::vpp_tuntap_enable {
       vpp_config {

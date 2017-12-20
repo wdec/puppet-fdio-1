@@ -64,7 +64,7 @@
 # [*vpp_vhostuser_dont_dump_memory*]
 #   (optional) vhost-user dont-dump-memory option. Avoids dumping vhost-user
 #   shared memory segments to core files.
-#   Defaults to false
+#   Defaults to true
 #
 # [*vpp_tuntap_enable*]
 #   (optional) enable VPP tuntap driver
@@ -83,6 +83,15 @@
 #   (optional) Configures VPP interface with IP settings found on its corresponding kernel NIC.
 #   Defaults to true
 #
+# [*enable_core_dump*]
+#   (optional) Enables VPP core-dump.
+#   Defaults to true
+#
+# [*full_core_dump*]
+#   (optional) Enables Full VPP core-dump not just text+data+bss
+#   Defaults to false
+#
+
 class fdio (
   $repo_branch                    = $::fdio::params::repo_branch,
   $vpp_exec_commands              = $::fdio::params::vpp_exec_commands,
@@ -101,6 +110,8 @@ class fdio (
   $vpp_tuntap_mtu                 = $::fdio::params::vpp_tuntap_mtu,
   $vpp_tapcli_mtu                 = $::fdio::params::vpp_tapcli_mtu,
   $copy_kernel_nic_ip             = $::fdio::params::copy_kernel_nic_ip,
+  $enable_core_dump               = $::fdio::params::enable_core_dump,
+  $full_coredump                  = $::fdio::params::full_coredump,
 ) inherits ::fdio::params {
 
   validate_array($vpp_dpdk_devs)
@@ -138,6 +149,18 @@ class fdio (
     }
     default: {
       fail("Unsupported OS: ${::operatingsystem}")
+    }
+  }
+
+  group {'vpp':
+    ensure => present,
+    gid => $fdio::params::default_gid_number,
+  }
+
+  if $enable_core_dump or $full_coredump {
+    limits::fragment {
+      'vpp/soft/core': value => 'unlimited';
+      'vpp/hard/core': value => 'unlimited';
     }
   }
 
