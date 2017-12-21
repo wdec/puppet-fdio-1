@@ -45,7 +45,7 @@ class fdio::config {
   }
   else {
       vpp_config {
-      #'unix/full-coredump': ensure => absent;
+      'unix/full-coredump': ensure => absent;
       'unix/coredump-size': value => $fdio::params::coredump_size;
     }
   }
@@ -77,8 +77,15 @@ class fdio::config {
     }
   }
 
-  vpp_config {
-    'cpu/main-core': value => $fdio::vpp_cpu_main_core;
-    'cpu/corelist-workers': value =>  join(any2array($fdio::vpp_cpu_corelist_workers), ',');
+  if $fdio::vpp_cpu_main_core != undef {
+    vpp_config {
+      'cpu/main-core': value => $fdio::vpp_cpu_main_core;
+    }
+  }
+
+  if $fdio::vpp_cpu_corelist_workers != undef and !empty($fdio::vpp_cpu_corelist_workers) {
+    vpp_config {
+      'cpu/corelist-workers': value => join(any2array($fdio::vpp_cpu_corelist_workers), ',');
+    }
   }
 }
