@@ -39,14 +39,18 @@ class fdio::config {
 
   if $fdio::full_coredump {
     vpp_config {
+      # VPP default config gid is 'vpp' which prevents coredumps. Vpp runs as root by default
+      'unix/gid': ensure => absent;
       'unix/full-coredump': ensure => present;
       'unix/coredump-size': value => $fdio::params::coredump_size;
     }
   }
   else {
       vpp_config {
-      'unix/full-coredump': ensure => absent;
-      'unix/coredump-size': value => $fdio::params::coredump_size;
+        # VPP default config gid to 'vpp' which prevents coredumps. Vpp runs as root by default
+        'unix/gid': ensure => absent;
+        'unix/full-coredump': ensure => absent;
+        'unix/coredump-size': value => $fdio::params::coredump_size;
     }
   }
 

@@ -159,8 +159,8 @@ class fdio (
 
   if $enable_core_dump or $full_coredump {
     limits::fragment {
-      'vpp/soft/core': value => 'unlimited';
-      'vpp/hard/core': value => 'unlimited';
+      'root/soft/core': value => '-1';
+      'root/hard/core': value => '-1';
     }
   }
 
