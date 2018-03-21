@@ -27,8 +27,17 @@ class fdio::config {
   vpp_config {
     'vhost-user/coalesce-frames': value => $fdio::vpp_vhostuser_coalesce_frames;
     'vhost-user/coalesce-time': value => $fdio::vpp_vhostuser_coalesce_time;
-    'tuntap/mtu': value => $fdio::vpp_tuntap_mtu;
-    'tapcli/mtu': value => $fdio::vpp_tapcli_mtu;
+  }
+
+  if $fdio::vpp_tuntap_mtu != undef and !empty($fdio::vpp_tuntap_mtu) {
+    vpp_config {
+      'tuntap/mtu': value => $fdio::vpp_tuntap_mtu;
+    }
+  }
+  if $fdio::vpp_tapcli_mtu != undef and !empty($fdio::vpp_tapcli_mtu) {
+    vpp_config {
+      'tapcli/mtu': value => $fdio::vpp_tapcli_mtu;
+    }
   }
 
   if $fdio::vpp_vhostuser_dont_dump_memory {

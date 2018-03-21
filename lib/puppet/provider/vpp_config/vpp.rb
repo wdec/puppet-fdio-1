@@ -15,7 +15,7 @@ Puppet::Type.type(:vpp_config).provide(:vpp) do
       fail("#{@resource[:setting]} is not a valid setting string")
     end
 
-    if @dev
+    if @dev and !@dev.to_s.empty?
       @search_regex = /^\s*dev\s+#{@dev}\s*{([^}]*)}?/
     else
       @search_regex = /^\s*#{@real_setting}\s*(\S+)?$/
